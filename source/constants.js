@@ -8,3 +8,6 @@ exports.privatePath = path.join(this.projectPath, "/private");
 exports.publicPath = path.join(this.projectPath, "/public");
 exports.sourcePath = path.join(this.projectPath, "/source");
 exports.viewPath = path.join(this.sourcePath , "/views");
+
+exports.databaseRegistered = path.join(this.privatePath, "/registered.json");
+exports.databaseCodes = path.join(this.privatePath, "/codes.json");
