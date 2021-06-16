@@ -1,3 +1,7 @@
+// @dart=2.9
+
+//set path=%path%;c:\src\flutter\flutter\bin;
+
 import 'package:flutter/material.dart';
 import 'package:szczeped/Screens/Login/login.dart';
 

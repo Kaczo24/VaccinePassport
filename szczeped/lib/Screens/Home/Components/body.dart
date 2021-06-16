@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:szczeped/Screens/Generate/generate.dart';
+import 'package:szczeped/Screens/Scan/scan.dart';
 
 class HomeBody extends StatelessWidget
 {
@@ -8,47 +10,56 @@ class HomeBody extends StatelessWidget
   @override
   Widget build(BuildContext context)
   {
-    Size size = MediaQuery.of(context).size;
     return Container(
       alignment: Alignment.center,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           ElevatedButton(
-            onPressed: (){
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    // Retrieve the text the user has entered by using the
-                    // TextEditingController.
-                    content: Text("Clicked Bitch!"),
-                  );
-                },
+            onPressed: ()
+            {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context)
+                      {
+                        return GeneratePage();
+                      }
+                  )
               );
             },
-            child: const Text(
-              'Generate QR Code',
-              style: TextStyle(fontSize: 30),
+            child: Padding(
+              padding: EdgeInsets.all(50),
+              child: const Text(
+                'Generate QR Code',
+                style: TextStyle(fontSize: 30),
+              ),
             ),
           ),
+          Container(
+            width: 100,
+            height: 100,
+          ),
           ElevatedButton(
-            onPressed: (){
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    // Retrieve the text the user has entered by using the
-                    // TextEditingController.
-                    content: Text("Clicked Bitch!"),
-                  );
-                },
+            onPressed: ()
+            {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context)
+                      {
+                        return ScanPage();
+                      }
+                  )
               );
             },
-            child: const Text(
+            child: Padding(
+              padding: EdgeInsets.all(50),
+              child: const Text(
                 'Scan QR Code',
                 style: TextStyle(fontSize: 30),
-            ),
+              ),
+            )
           ),
         ],
       ),

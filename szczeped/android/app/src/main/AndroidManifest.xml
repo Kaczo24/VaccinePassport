@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.szczeped">
    <application
-        android:label="szczeped"
+        android:label="Szczeped"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

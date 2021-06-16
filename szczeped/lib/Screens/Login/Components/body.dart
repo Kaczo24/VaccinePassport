@@ -37,7 +37,8 @@ class LoginBody extends StatelessWidget
                   controller: passwordFieldController,
                 ),
                 ElevatedButton(
-                  onPressed: (){
+                  onPressed: ()
+                  {
                     if(loginFieldController.text != '' && passwordFieldController.text != '')
                       {
                         Navigator.push(
@@ -48,6 +49,19 @@ class LoginBody extends StatelessWidget
                                   return HomePage();
                                 }
                             )
+                        );
+                      }
+                    else
+                      {
+                        showDialog<void>(
+                          context: context,
+                          builder: (BuildContext context)
+                          {
+                            return AlertDialog(
+                              title: const Text('Error'),
+                              content: Text('You must enter credentials'),
+                            );
+                          },
                         );
                       }
                   },
