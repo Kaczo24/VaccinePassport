@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:szczeped/Screens/Home/home.dart';
+import 'package:http/http.dart' as http;
 
 class LoginBody extends StatelessWidget
 {
@@ -37,42 +38,43 @@ class LoginBody extends StatelessWidget
                   controller: passwordFieldController,
                 ),
                 ElevatedButton(
-                  onPressed: ()
+                  onPressed: () async
                   {
-                    if(loginFieldController.text != '' && passwordFieldController.text != '')
-                      {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context)
-                                {
-                                  return HomePage();
-                                }
-                            )
-                        );
-                      }
-                    else
-                      {
-                        showDialog<void>(
-                          context: context,
-                          builder: (BuildContext context)
+                    final response = await CheckCredentials(loginFieldController.text, passwordFieldController.text);
+                    if (response == 'true')
+                    {
+                      Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context)
                           {
-                            return AlertDialog(
-                              title: const Text('Error'),
-                              content: Text('You must enter credentials'),
-                            );
-                          },
-                        );
-                      }
+                            return HomePage(loginFieldController.text, passwordFieldController.text);
+                          }
+                        )
+                      );
+                    }
                   },
                   child: const Text('Submit'),
                 ),
               ],
             ),
           ),
-
         ],
       ),
     );
+  }
+
+  Future<String> CheckCredentials(String login, String password) async
+  {
+    final response = await http.get(
+      Uri.parse('http://83.11.213.19:3000/checkFor?pesel=${login}&password=${password}'),
+    );
+
+    if (response.statusCode == 200) {
+      return response.body;
+    }
+    else {
+      throw Exception('Failed to get answer from server');
+    }
   }
 }

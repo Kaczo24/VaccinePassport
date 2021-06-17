@@ -35,6 +35,12 @@ dependencies:
   #generate QR
   barcode_widget: ^1.5.0
 
+  #http
+  http: ^0.13.3
+
+  #dio - inny requester
+  dio: ^4.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

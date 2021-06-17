@@ -3,6 +3,15 @@ import 'package:szczeped/Screens/Home/Components/body.dart';
 
 class HomePage extends StatelessWidget
 {
+  late String login;
+  late String password;
+
+  HomePage(String login, String password)
+  {
+    this.login = login;
+    this.password = password;
+  }
+
   @override
   Widget build(BuildContext context)
   {
@@ -10,7 +19,7 @@ class HomePage extends StatelessWidget
       appBar: AppBar(
         title: const Text('Home Page'),
       ),
-      body: HomeBody(),
+      body: HomeBody(login, password),
     );
   }
 }

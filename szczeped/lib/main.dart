@@ -5,8 +5,15 @@
 import 'package:flutter/material.dart';
 import 'package:szczeped/Screens/Login/login.dart';
 
+import 'dart:io';
+import 'package:http/http.dart' as http;
+
+
 void main()
 {
+  //HttpOverrides.global = new MyHttpOverrides();
+  HttpOverrides.global = new DevHttpOverrides();
+
   runApp(MyApp());
 }
 
@@ -30,8 +37,29 @@ class MyApp extends StatelessWidget
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
+      debugShowCheckedModeBanner: false,
       home: LoginPage(),
     );
   }
 }
+
+//HttpClient client = HttpClient()
+//  ..badCertificateCallback = ((X509Certificate cert, String host, int port) => true);
+
+//class MyHttpOverrides extends HttpOverrides{
+//  @override
+//  HttpClient createHttpClient(SecurityContext context){
+//    return super.createHttpClient(context)
+//      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
+//  }
+//}
+
+class DevHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+  }
+}
+
 

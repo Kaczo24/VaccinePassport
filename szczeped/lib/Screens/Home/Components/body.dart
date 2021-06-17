@@ -2,10 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:szczeped/Screens/Generate/generate.dart';
 import 'package:szczeped/Screens/Scan/scan.dart';
 
+
 class HomeBody extends StatelessWidget
 {
-  final loginFieldController = TextEditingController();
-  final passwordFieldController = TextEditingController();
+  late String login;
+  late String password;
+
+  HomeBody(String login, String password)
+  {
+    this.login = login;
+    this.password = password;
+  }
 
   @override
   Widget build(BuildContext context)
@@ -23,7 +30,7 @@ class HomeBody extends StatelessWidget
                   MaterialPageRoute(
                       builder: (context)
                       {
-                        return GeneratePage();
+                        return GeneratePage(login, password);
                       }
                   )
               );

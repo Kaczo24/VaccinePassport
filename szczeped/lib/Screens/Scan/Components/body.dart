@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:http/http.dart' as http;
+
 
 class ScanBody extends StatefulWidget
 {
@@ -9,7 +13,9 @@ class ScanBody extends StatefulWidget
 
 class ScanBodyState extends State
 {
-  String qrCode = 'Unknown';
+  bool result = false;
+  String qrCode = 'Not Scanned';
+  String date = '';
 
   @override
   Widget build(BuildContext context)
@@ -20,7 +26,7 @@ class ScanBodyState extends State
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
-            qrCode,
+            result.toString(),
             style: TextStyle(
               fontSize: 30,
             ),
@@ -29,27 +35,7 @@ class ScanBodyState extends State
             height: 75,
           ),
           ElevatedButton(
-            onPressed: ()
-            {
-              final qrCode = FlutterBarcodeScanner.scanBarcode(
-                  '#ffffff',
-                  'Cancel',
-                  true,
-                  ScanMode.QR
-              ).toString();
-              showDialog<void>(
-                context: context,
-                builder: (BuildContext context)
-                {
-                  return AlertDialog(
-                    content: Text(qrCode),
-                  );
-                },
-              );
-              setState(() {
-                this.qrCode = qrCode;
-              });
-            },
+            onPressed: () => StartQRScan(),
             child: Padding(
               padding: EdgeInsets.all(20),
               child: const Text(
@@ -58,8 +44,44 @@ class ScanBodyState extends State
               ),
             ),
           ),
+          AlertDialog(
+            title: const Text('Check'),
+            content: Text(result.toString() + '\n' + date),
+          ),
         ],
       ),
     );
+  }
+
+  Future<void> StartQRScan() async
+  {
+    final qrCode = await FlutterBarcodeScanner.scanBarcode(
+        '#ffffff',
+        'Cancel',
+        true,
+        ScanMode.QR
+    );
+    final response = await http.get(
+        Uri.parse('http://83.11.213.19:3000/app/checkCode?code=${qrCode}'),
+    );
+
+    if (response.statusCode == 200)
+    {
+      setState(() {
+        debugPrint(response.body);
+        debugPrint(json.decode(response.body).toString());
+        this.result = json.decode(response.body)["exists"];
+        this.date = json.decode(response.body)["date"];
+        this.qrCode = qrCode;
+        debugPrint(result.toString());
+        debugPrint(date.toString());
+      });
+    }
+    else
+    {
+      throw Exception('Failed to get answer from server');
+    }
+
+
   }
 }
